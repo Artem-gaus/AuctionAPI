@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction", "Auction\Auction.csproj", "{DD693321-6356-4B79-88E7-1DE1ABE3333C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{F6E8C945-B001-4781-901F-F83EFD77E8DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{7026F27A-AF51-4C16-90CB-E3B74F27FB8B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD693321-6356-4B79-88E7-1DE1ABE3333C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD693321-6356-4B79-88E7-1DE1ABE3333C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD693321-6356-4B79-88E7-1DE1ABE3333C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD693321-6356-4B79-88E7-1DE1ABE3333C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6E8C945-B001-4781-901F-F83EFD77E8DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6E8C945-B001-4781-901F-F83EFD77E8DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6E8C945-B001-4781-901F-F83EFD77E8DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6E8C945-B001-4781-901F-F83EFD77E8DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7026F27A-AF51-4C16-90CB-E3B74F27FB8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7026F27A-AF51-4C16-90CB-E3B74F27FB8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7026F27A-AF51-4C16-90CB-E3B74F27FB8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7026F27A-AF51-4C16-90CB-E3B74F27FB8B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D409AC65-A487-4386-A22A-4B4EAC2E3687}
+	EndGlobalSection
+EndGlobal
