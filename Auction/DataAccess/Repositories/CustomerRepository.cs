@@ -9,7 +9,7 @@ using BusinessLogic.Interfaces;
 
 namespace DataAccess.Repositories
 {
-    class CustomerRepository : IRepositoryCRUD<Customer>
+    public class CustomerRepository : IRepositoryCRUD<Customer>
     {
         private readonly AuctionContext context;
 
@@ -30,7 +30,9 @@ namespace DataAccess.Repositories
 
         public Customer Get(int id)
         {
-            throw new NotImplementedException();
+            Customer customer = context.Customers.SingleOrDefault(e => e.Id == id);
+
+            return customer;
         }
 
         public IEnumerable<Customer> GetAll()

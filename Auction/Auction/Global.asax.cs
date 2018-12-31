@@ -1,9 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web.Mvc;
 using System.Web.Http;
-using System.Web.Routing;
+
+using SimpleInjector;
+
+using Auction.App_Start;
+using BusinessLogic.Models;
+using BusinessLogic.Services;
+using DataAccess.Repositories;
+using BusinessLogic.Interfaces;
 
 namespace Auction
 {
@@ -11,6 +15,16 @@ namespace Auction
     {
         protected void Application_Start()
         {
+            var container = new Container();
+            container.Register<ICustomerService, CustomerService>();
+            //container.Register<IUnitOfWork, UnitOfWork>();
+            container.Register<IRepositoryCRUD<Customer>, CustomerRepository>();
+
+            //container.Verify();
+
+            DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
+            GlobalConfiguration.Configuration.DependencyResolver = new SimpleInjectorDependencyResolver(container);
+
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }

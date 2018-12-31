@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace BusinessLogic.Models
 {
     public class Producer
     {
         public int Id { get; set; }
+        [Required]
+        [StringLength(255)]
         public string Title { get; set; }
         public string Description { get; set; }
 

@@ -10,7 +10,6 @@ namespace BusinessLogic.Models
     public class Customer : Person
     {
         public ICollection<Bid> Bids { get; set; }
-
         public Customer()
         {
             Bids = new Collection<Bid>();

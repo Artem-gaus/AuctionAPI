@@ -3,14 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using BusinessLogic.Interfaces;
 using DataAccess.Repositories;
+
+///////////////////
+// now is not use//
+///////////////////
+////////////////////////////////
+///хороший вариант реализации///
+///должно заработать         /// 
+///https://habr.com/post/238737/
+////////////////////////////////
 
 namespace DataAccess
 {
-    class UnitOfWork : IDisposable
+    class UnitOfWork : IDisposable, IUnitOfWork<BidRepository, CustomerRepository>
     {
         private AuctionContext context = new AuctionContext();
+
         private BidRepository bidRepository;
         private CustomerRepository customerRepository;
         private ProducerRepository producerRepository;

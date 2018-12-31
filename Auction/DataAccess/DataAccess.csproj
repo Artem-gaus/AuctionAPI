@@ -53,6 +53,10 @@
     <Compile Include="Migrations\201812291602231_BaseEntitys.Designer.cs">
       <DependentUpon>201812291602231_BaseEntitys.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812311517366_AttachDataAnotations.cs" />
+    <Compile Include="Migrations\201812311517366_AttachDataAnotations.Designer.cs">
+      <DependentUpon>201812311517366_AttachDataAnotations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BidRepository.cs" />
@@ -76,6 +80,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201812291602231_BaseEntitys.resx">
       <DependentUpon>201812291602231_BaseEntitys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812311517366_AttachDataAnotations.resx">
+      <DependentUpon>201812311517366_AttachDataAnotations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
