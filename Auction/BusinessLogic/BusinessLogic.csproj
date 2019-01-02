@@ -62,8 +62,14 @@
     <Compile Include="Interfaces\IRepositories\IProductCategoryRepository.cs" />
     <Compile Include="Interfaces\IRepositories\IProductRepository.cs" />
     <Compile Include="Interfaces\IRepositories\ISellerRepository.cs" />
+    <Compile Include="Interfaces\IServices\IBidService.cs" />
     <Compile Include="Interfaces\IServices\ICustomerService.cs" />
     <Compile Include="Interfaces\IRepositories\IRepository.cs" />
+    <Compile Include="Interfaces\IServices\IProducerService.cs" />
+    <Compile Include="Interfaces\IServices\IProductCategoryService.cs" />
+    <Compile Include="Interfaces\IServices\IProductSevice.cs" />
+    <Compile Include="Interfaces\IServices\ISellerService.cs" />
+    <Compile Include="Interfaces\IServices\IService.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Models\Bid.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -75,6 +81,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BidService.cs" />
     <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\ProducerService.cs" />
+    <Compile Include="Services\ProductCategoryService.cs" />
+    <Compile Include="Services\ProductService.cs" />
+    <Compile Include="Services\SellerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

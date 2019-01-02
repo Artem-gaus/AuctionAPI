@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BusinessLogic.DTO;
-using BusinessLogic.Interfaces.IServices;
 
-namespace BusinessLogic.Interfaces
+namespace BusinessLogic.Interfaces.IServices
 {
-    public interface ICustomerService : IService<CustomerDTO>
+    public interface IProductSevice : IService<ProductDTO>
     {
     }
 }

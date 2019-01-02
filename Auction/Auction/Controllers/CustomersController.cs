@@ -21,25 +21,47 @@ namespace Auction.Controllers
 
         [Route("{id:int}")]
         [HttpGet]
-        public CustomerDTO Get(int id)
+        public IHttpActionResult Get(int id)
         {
-            var cDTO = customerService.Get(id);
-            return cDTO;
+            var customerDTO = customerService.Get(id);
+            if (customerDTO == null || customerDTO.Id == 0)
+                return NotFound();
+
+            return Ok(customerDTO);
         }
         [HttpPost]
-        public void Add(CustomerDTO customerDTO)
+        public IHttpActionResult Add([FromBody] CustomerDTO customerDTO)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             customerService.Create(customerDTO);
+
+            return Ok();
         }
         [HttpPut]
-        public void Update(CustomerDTO customerDTO)
+        public IHttpActionResult Update([FromBody] CustomerDTO customerDTO)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            CustomerDTO existsCustomer = customerService.Get(customerDTO.Id);
+            if (existsCustomer == null)
+                return NotFound();
+
             customerService.Update(customerDTO);
+            return Ok();
         }
         [HttpDelete]
-        public void Delete(CustomerDTO customerDTO)
+        public IHttpActionResult Delete([FromBody] CustomerDTO customerDTO)
         {
+            CustomerDTO existsCustomer = customerService.Get(customerDTO.Id);
+            if (existsCustomer == null)
+                return NotFound();
+
             customerService.Delete(customerDTO);
+
+            return Ok();
         }
     }
 }
