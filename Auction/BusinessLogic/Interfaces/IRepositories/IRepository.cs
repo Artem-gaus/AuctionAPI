@@ -13,5 +13,6 @@ namespace BusinessLogic.Interfaces
 
         void Add(TEntity entity);
         void Remove(TEntity entity);
+        void Update(TEntity entity);
     }
 }

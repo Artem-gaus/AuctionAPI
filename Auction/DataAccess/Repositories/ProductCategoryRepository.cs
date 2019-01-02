@@ -9,7 +9,7 @@ using BusinessLogic.Interfaces.IRepositories;
 
 namespace DataAccess.Repositories
 {
-    class ProductCategoryRepository : Repository<ProductCategory>, IProductCategoryRepository
+    public class ProductCategoryRepository : Repository<ProductCategory>, IProductCategoryRepository
     {
         public ProductCategoryRepository(AuctionContext context) : base(context)
         {

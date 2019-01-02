@@ -14,12 +14,6 @@ namespace DataAccess.Repositories
         public CustomerRepository(AuctionContext context) : base(context)
         {
         }
-
-        public void Create(Customer item)
-        {
-            context.Customers.Add(item);
-        }
-
         public AuctionContext AuctionContext
         {
             get { return context as AuctionContext; }

@@ -19,19 +19,40 @@ namespace BusinessLogic.Services
     public class CustomerService : ICustomerService
     {
 
-        private readonly IUnitOfWork repository;
+        private readonly IUnitOfWork uow;
 
         public CustomerService(IUnitOfWork repository)
         {
-            this.repository = repository;
+            this.uow = repository;
         }
 
+        public void Create(CustomerDTO customerDTO)
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CustomerDTO, Customer>()).CreateMapper();
+            Customer customer = mapper.Map<CustomerDTO, Customer>(customerDTO);
+            uow.Customers.Add(customer);
+            uow.Save();
+        }
         public CustomerDTO Get(int id)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Customer, CustomerDTO>()).CreateMapper();
-            Customer customer = repository.Customers.Get(id);
+            Customer customer = uow.Customers.Get(id);
 
             return mapper.Map<Customer, CustomerDTO>(customer);
+        }
+        public void Update(CustomerDTO customerDTO)
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Customer, CustomerDTO>()).CreateMapper();
+            Customer customer = mapper.Map<CustomerDTO, Customer>(customerDTO);
+            uow.Customers.Update(customer);
+            uow.Save();
+        }
+        public void Delete(CustomerDTO customerDTO)
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Customer, CustomerDTO>()).CreateMapper();
+            Customer customer = mapper.Map<CustomerDTO, Customer>(customerDTO);
+            uow.Customers.Remove(customer);
+            uow.Save();
         }
     }
 }

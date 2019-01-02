@@ -10,7 +10,7 @@ using BusinessLogic.Interfaces.IRepositories;
 
 namespace DataAccess.Repositories
 {
-    class BidRepository : Repository<Bid>, IBidRepository
+    public class BidRepository : Repository<Bid>, IBidRepository
     {
         public BidRepository(AuctionContext context) : base(context)
         {

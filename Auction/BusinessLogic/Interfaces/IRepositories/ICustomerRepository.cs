@@ -10,6 +10,5 @@ namespace BusinessLogic.Interfaces
 {
     public interface ICustomerRepository : IRepository<Customer>
     {
-        void Create(Customer item);
     }
 }

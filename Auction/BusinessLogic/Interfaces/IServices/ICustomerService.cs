@@ -11,5 +11,8 @@ namespace BusinessLogic.Interfaces
     public interface ICustomerService
     {
         CustomerDTO Get(int id);
+        void Create(CustomerDTO customerDTO);
+        void Update(CustomerDTO customerDTO);
+        void Delete(CustomerDTO customerDTO);
     }
 }

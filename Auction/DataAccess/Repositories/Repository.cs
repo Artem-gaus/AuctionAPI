@@ -21,20 +21,21 @@ namespace DataAccess.Repositories
         {
             context.Set<TEntity>().Add(entity);
         }
-
         public TEntity Get(int id)
         {
             return context.Set<TEntity>().Find(id);
         }
-
         public IEnumerable<TEntity> GetAll()
         {
             return context.Set<TEntity>().ToList();
         }
-
         public void Remove(TEntity entity)
         {
-            context.Set<TEntity>().Remove(entity);
+            context.Entry(entity).State = System.Data.Entity.EntityState.Deleted;
+        }
+        public void Update(TEntity entity)
+        {
+            context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
         }
     }
 }

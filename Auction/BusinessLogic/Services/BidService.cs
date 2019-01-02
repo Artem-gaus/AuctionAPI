@@ -10,11 +10,11 @@ namespace BusinessLogic.Services
 {
     class BidService
     {
-        private readonly IRepositoryCRUD<Bid> bidRepository;
+        private readonly IUnitOfWork repository;
 
-        public BidService(IRepositoryCRUD<Bid> bidRepository)
+        public BidService(IUnitOfWork repository)
         {
-            this.bidRepository = bidRepository;
+            this.repository = repository;
         }
     }
 }

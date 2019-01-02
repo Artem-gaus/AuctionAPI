@@ -64,7 +64,6 @@
     <Compile Include="Interfaces\IRepositories\ISellerRepository.cs" />
     <Compile Include="Interfaces\IServices\ICustomerService.cs" />
     <Compile Include="Interfaces\IRepositories\IRepository.cs" />
-    <Compile Include="Interfaces\IRepositories\IRepositoryCRUD.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Models\Bid.cs" />
     <Compile Include="Models\Customer.cs" />
