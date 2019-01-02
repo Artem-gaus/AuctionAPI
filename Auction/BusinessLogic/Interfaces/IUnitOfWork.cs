@@ -1,17 +1,23 @@
-﻿using System;
+﻿using BusinessLogic.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BusinessLogic.Interfaces.IRepositories;
+
 namespace BusinessLogic.Interfaces
 {
-    public interface IUnitOfWork<BidR, CustomerR> 
-        where BidR : class
-        where CustomerR : class
+    public interface IUnitOfWork
     {
-        BidR Bids { get; }
-        CustomerR Customers { get; }
         void Save();
+        
+        ICustomerRepository Customers { get; }
+        IBidRepository Bids { get; }
+        IProducerRepository Producers { get; }
+        IProductCategoryRepository ProductCategories { get; }
+        IProductRepository Products { get; }
+        ISellerRepository Sellers { get; }
     }
 }

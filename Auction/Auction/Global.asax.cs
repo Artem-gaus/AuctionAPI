@@ -3,6 +3,7 @@ using System.Web.Http;
 
 using SimpleInjector;
 
+using DataAccess;
 using Auction.App_Start;
 using BusinessLogic.Models;
 using BusinessLogic.Services;
@@ -17,8 +18,9 @@ namespace Auction
         {
             var container = new Container();
             container.Register<ICustomerService, CustomerService>();
-            //container.Register<IUnitOfWork, UnitOfWork>();
-            container.Register<IRepositoryCRUD<Customer>, CustomerRepository>();
+            container.Register<IUnitOfWork, UnitOfWork>();
+            container.Register<IRepository<Customer>, Repository<Customer>>();
+            container.Register<ICustomerRepository, CustomerRepository>();
 
             //container.Verify();
 

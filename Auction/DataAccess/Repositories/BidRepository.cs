@@ -6,41 +6,18 @@ using System.Threading.Tasks;
 
 using BusinessLogic.Models;
 using BusinessLogic.Interfaces;
+using BusinessLogic.Interfaces.IRepositories;
 
 namespace DataAccess.Repositories
 {
-    class BidRepository : IRepositoryCRUD<Bid>
+    class BidRepository : Repository<Bid>, IBidRepository
     {
-        private readonly AuctionContext context;
-
-        public BidRepository(AuctionContext context)
+        public BidRepository(AuctionContext context) : base(context)
         {
-            this.context = context;
         }
-
-        public void Create(Bid item)
+        public AuctionContext AuctionContext
         {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Bid Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Bid> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Bid item)
-        {
-            throw new NotImplementedException();
+            get { return context as AuctionContext; }
         }
     }
 }

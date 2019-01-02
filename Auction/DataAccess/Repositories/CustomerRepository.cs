@@ -9,40 +9,20 @@ using BusinessLogic.Interfaces;
 
 namespace DataAccess.Repositories
 {
-    public class CustomerRepository : IRepositoryCRUD<Customer>
+    public class CustomerRepository : Repository<Customer>, ICustomerRepository
     {
-        private readonly AuctionContext context;
-
-        public CustomerRepository(AuctionContext context)
+        public CustomerRepository(AuctionContext context) : base(context)
         {
-            this.context = context;
         }
 
         public void Create(Customer item)
         {
-            throw new NotImplementedException();
+            context.Customers.Add(item);
         }
 
-        public void Delete(int id)
+        public AuctionContext AuctionContext
         {
-            throw new NotImplementedException();
-        }
-
-        public Customer Get(int id)
-        {
-            Customer customer = context.Customers.SingleOrDefault(e => e.Id == id);
-
-            return customer;
-        }
-
-        public IEnumerable<Customer> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Customer item)
-        {
-            throw new NotImplementedException();
+            get { return context as AuctionContext; }
         }
     }
 }

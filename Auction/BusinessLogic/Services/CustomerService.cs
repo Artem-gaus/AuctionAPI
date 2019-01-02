@@ -18,9 +18,10 @@ namespace BusinessLogic.Services
 {
     public class CustomerService : ICustomerService
     {
-        private readonly IRepositoryCRUD<Customer> repository;
 
-        public CustomerService(IRepositoryCRUD<Customer> repository) 
+        private readonly IUnitOfWork repository;
+
+        public CustomerService(IUnitOfWork repository)
         {
             this.repository = repository;
         }
@@ -28,7 +29,7 @@ namespace BusinessLogic.Services
         public CustomerDTO Get(int id)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Customer, CustomerDTO>()).CreateMapper();
-            Customer customer = repository.Get(id);
+            Customer customer = repository.Customers.Get(id);
 
             return mapper.Map<Customer, CustomerDTO>(customer);
         }

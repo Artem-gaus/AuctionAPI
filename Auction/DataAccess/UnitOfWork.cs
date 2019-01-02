@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BusinessLogic.Interfaces;
+
 using DataAccess.Repositories;
+using BusinessLogic.Interfaces;
+using BusinessLogic.Interfaces.IRepositories;
 
 ///////////////////
 // now is not use//
@@ -17,44 +19,28 @@ using DataAccess.Repositories;
 
 namespace DataAccess
 {
-    class UnitOfWork : IDisposable, IUnitOfWork<BidRepository, CustomerRepository>
+    public class UnitOfWork : IDisposable, IUnitOfWork
     {
-        private AuctionContext context = new AuctionContext();
-
-        private BidRepository bidRepository;
-        private CustomerRepository customerRepository;
-        private ProducerRepository producerRepository;
-        private ProductCategoryRepository categoryRepository;
-        private ProductRepository productRepository;
-        private SellerRepository sellerRepository;
-
-        public BidRepository Bids
-        {
-            get
-            {
-                if (bidRepository == null)
-                    bidRepository = new BidRepository(context);
-
-                return bidRepository;
-            }
-        }
-        public CustomerRepository Customers
-        {
-            get
-            {
-                if (customerRepository == null)
-                    customerRepository = new CustomerRepository(context);
-
-                return customerRepository;
-            }
-        }
-
-        public void Save()
-        {
-            context.SaveChanges();
-        }
-
         private bool disposed = false;
+        private readonly AuctionContext context;
+
+        public ICustomerRepository Customers { get; private set; }
+        public IBidRepository Bids { get; private set; }
+        public IProducerRepository Producers { get; private set; }
+        public IProductCategoryRepository ProductCategories { get; private set; }
+        public IProductRepository Products { get; private set; } 
+        public ISellerRepository Sellers { get; private set; }
+
+        public UnitOfWork(AuctionContext context)
+        {
+            this.context = context;
+            Customers = new CustomerRepository(context);
+            Bids = new BidRepository(context);
+            Producers = new ProducerRepository(context);
+            ProductCategories = new ProductCategoryRepository(context);
+            Products = new ProductRepository(context);
+            Sellers = new SellerRepository(context);
+        }
 
         public virtual void Dispose(bool disposing)
         {
@@ -67,11 +53,15 @@ namespace DataAccess
                 this.disposed = true;
             }
         }
-
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public void Save()
+        {
+            context.SaveChanges();
         }
     }
 }

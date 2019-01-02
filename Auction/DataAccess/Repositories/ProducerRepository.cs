@@ -5,42 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BusinessLogic.Models;
-using BusinessLogic.Interfaces;
+using BusinessLogic.Interfaces.IRepositories;
 
 namespace DataAccess.Repositories
 {
-    class ProducerRepository : IRepositoryCRUD<Producer>
+    class ProducerRepository : Repository<Producer>, IProducerRepository
     {
-        private readonly AuctionContext context;
-
-        public ProducerRepository(AuctionContext context)
+        public ProducerRepository(AuctionContext context) : base(context)
         {
-            this.context = context;
         }
-
-        public void Create(Producer item)
+        public AuctionContext AuctionContext
         {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Producer Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Producer> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Producer item)
-        {
-            throw new NotImplementedException();
+            get { return context as AuctionContext; }
         }
     }
 }

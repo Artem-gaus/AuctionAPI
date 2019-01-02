@@ -64,6 +64,7 @@
     <Compile Include="Repositories\ProducerRepository.cs" />
     <Compile Include="Repositories\ProductCategoryRepository.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
+    <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\SellerRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>

@@ -5,42 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BusinessLogic.Models;
-using BusinessLogic.Interfaces;
+using BusinessLogic.Interfaces.IRepositories;
 
 namespace DataAccess.Repositories
 {
-    class SellerRepository : IRepositoryCRUD<Seller>
+    class SellerRepository : Repository<Seller>, ISellerRepository
     {
-        private readonly AuctionContext context;
-
-        public SellerRepository(AuctionContext context)
+        public SellerRepository(AuctionContext context) : base(context)
         {
-            this.context = context;
         }
-
-        public void Create(Seller item)
+        public AuctionContext AuctionContext
         {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Seller Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Seller> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Seller item)
-        {
-            throw new NotImplementedException();
+            get { return context as AuctionContext; }
         }
     }
 }
