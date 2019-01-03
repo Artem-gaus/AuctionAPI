@@ -1,32 +1,65 @@
-﻿using BusinessLogic.DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
+using BusinessLogic.DTO;
+using BusinessLogic.Interfaces.IServices;
+
 namespace Auction.Controllers
 {
     [RoutePrefix("api/sellers")]
     public class SellersController : ApiController
     {
-        public SellersController()
-        {
+        private readonly ISellerService sellerService;
 
+        public SellersController(ISellerService sellerService)
+        {
+            this.sellerService = sellerService;
         }
-        //[Route("{id:int}")]
-        //[HttpGet]
-        //public SellerDTO Get(int id)
-        //{ }
+        [Route("{id:int}")]
+        [HttpGet]
+        public IHttpActionResult Get(int id)
+        {
+            SellerDTO sellerDTO = sellerService.Get(id);
+            if (sellerDTO == null)
+                return NotFound();
+
+            return Ok(sellerDTO);
+        }
         [HttpPost]
-        public void Add(SellerDTO sellerDTO)
-        { }
+        public IHttpActionResult Add(SellerDTO sellerDTO)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            sellerService.Create(sellerDTO);
+            return Ok();
+        }
         [HttpPut]
-        public void Update(SellerDTO sellerDTO)
-        { }
+        public IHttpActionResult Update(SellerDTO sellerDTO)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            SellerDTO existsSeller = sellerService.Get(sellerDTO.Id);
+            if (existsSeller == null)
+                return NotFound();
+
+            sellerService.Update(sellerDTO);
+            return Ok();
+        }
         [HttpDelete]
-        public void Delete(SellerDTO sellerDTO)
-        { }
+        public IHttpActionResult Delete(SellerDTO sellerDTO)
+        {
+            SellerDTO existsSeller = sellerService.Get(sellerDTO.Id);
+            if (existsSeller == null)
+                return NotFound();
+
+            sellerService.Delete(sellerDTO);
+            return Ok();
+        }
     }
 }

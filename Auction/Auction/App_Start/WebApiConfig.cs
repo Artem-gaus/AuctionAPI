@@ -12,6 +12,8 @@ namespace Auction
             // Web API configuration and services
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("application/json"));
 
+            config.EnableCors();
+
             // Web API routes
             config.MapHttpAttributeRoutes();
 

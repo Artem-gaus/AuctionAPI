@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 using BusinessLogic.DTO;
 using BusinessLogic.Interfaces;
 
 namespace Auction.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Custom-Header")]
     [RoutePrefix("api/customers")]
     public class CustomersController : ApiController
     {
