@@ -10,5 +10,7 @@ namespace BusinessLogic.Interfaces.IServices
 {
     public interface IProductSevice : IService<ProductDTO>
     {
+        List<ProductDTO> GetProductsByProducer(int id);
+        List<ProductDTO> GetProductsByCategory(int id);
     }
 }

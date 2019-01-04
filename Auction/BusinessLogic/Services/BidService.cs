@@ -12,7 +12,7 @@ using AutoMapper;
 
 namespace BusinessLogic.Services
 {
-    class BidService : IBidService
+    public class BidService : IBidService
     {
         private readonly IUnitOfWork uow;
 
@@ -25,6 +25,8 @@ namespace BusinessLogic.Services
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<BidDTO, Bid>()).CreateMapper();
             Bid bid = mapper.Map<BidDTO, Bid>(bidDTO);
+            bid.TimeOfBit = DateTime.Now;
+
             uow.Bids.Add(bid);
             uow.Save();
         }
@@ -41,6 +43,13 @@ namespace BusinessLogic.Services
             Bid bid = uow.Bids.Get(id);
 
             return mapper.Map<Bid, BidDTO>(bid);
+        }
+        public List<BidDTO> GetBidsByCustomer(int id)
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Bid, BidDTO>()).CreateMapper();
+            List<Bid> bids = uow.Bids.GetBidsByCustomer(id);
+
+            return mapper.Map<List<Bid>, List<BidDTO>>(bids);
         }
         public void Update(BidDTO bidDTO)
         {

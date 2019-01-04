@@ -11,7 +11,7 @@ using BusinessLogic.Models;
 
 namespace BusinessLogic.Services
 {
-    class SellerService : ISellerService
+    public class SellerService : ISellerService
     {
         private readonly IUnitOfWork uow;
 

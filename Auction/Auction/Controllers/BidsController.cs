@@ -4,12 +4,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 using BusinessLogic.DTO;
 using BusinessLogic.Interfaces.IServices;
 
 namespace Auction.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Custom-Header")]
     [RoutePrefix("api/bids")]
     public class BidsController : ApiController
     {
@@ -28,6 +30,16 @@ namespace Auction.Controllers
                 return NotFound();
 
             return Ok(bidDTO);
+        }
+        [Route("customer/{id:int}")]
+        [HttpGet]
+        public IHttpActionResult GetByCustomer(int id)
+        {
+            List<BidDTO> bidDTOs = bidService.GetBidsByCustomer(id);
+            if (bidDTOs == null)
+                return NotFound();
+
+            return Ok(bidDTOs);
         }
         [HttpPost]
         public IHttpActionResult Add(BidDTO bidDTO)

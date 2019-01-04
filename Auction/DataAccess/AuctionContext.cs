@@ -21,5 +21,25 @@ namespace DataAccess
         public AuctionContext() : base("DBAuction")
         {
         }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>().Property(e => e.PublicationDate).HasColumnType("datetime2");
+            modelBuilder.Entity<Product>().Property(e => e.EndDate).HasColumnType("datetime2");
+
+            modelBuilder.Entity<Bid>().Property(e => e.TimeOfBit).HasColumnType("datetime2");
+
+            modelBuilder.Entity<Bid>()
+                .HasRequired(b => b.Customer)
+                .WithMany(c => c.Bids)
+                .HasForeignKey(b => b.CustomerId)
+                .WillCascadeOnDelete(true);
+            modelBuilder.Entity<Bid>()
+                .HasRequired(b => b.Product)
+                .WithMany(p => p.Bids)
+                .HasForeignKey(b => b.ProductId)
+                .WillCascadeOnDelete(false);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace BusinessLogic.Interfaces.IServices
 {
     public interface IProducerService : IService<ProducerDTO>
     {
+        List<ProducerDTO> GetAll();
     }
 }

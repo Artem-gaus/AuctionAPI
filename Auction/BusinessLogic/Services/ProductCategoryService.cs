@@ -13,7 +13,7 @@ using BusinessLogic.Models;
 
 namespace BusinessLogic.Services
 {
-    class ProductCategoryService : IProductCategoryService
+    public class ProductCategoryService : IProductCategoryService
     {
         private readonly IUnitOfWork uow;
 
@@ -44,6 +44,14 @@ namespace BusinessLogic.Services
             ProductCategory category = uow.ProductCategories.Get(id);
 
             return mapper.Map<ProductCategory, ProductCategoryDTO>(category);
+        }
+
+        public List<ProductCategoryDTO> GetAll()
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProductCategory, ProductCategoryDTO>()).CreateMapper();
+            List<ProductCategory> categorys = uow.ProductCategories.GetAll().ToList();
+
+            return mapper.Map<List<ProductCategory>, List<ProductCategoryDTO>>(categorys);
         }
 
         public void Update(ProductCategoryDTO categoryDTO)

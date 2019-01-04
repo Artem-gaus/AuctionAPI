@@ -19,5 +19,13 @@ namespace DataAccess.Repositories
         {
             get { return context as AuctionContext; }
         }
+
+        public List<Bid> GetBidsByCustomer(int customerId)
+        {
+            var query = context.Bids.AsQueryable();
+            query = query.Where(b => b.CustomerId == customerId);
+
+            return query.ToList();
+        }
     }
 }

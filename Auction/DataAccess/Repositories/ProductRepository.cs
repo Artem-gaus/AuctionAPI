@@ -18,5 +18,20 @@ namespace DataAccess.Repositories
         {
             get { return context as AuctionContext; }
         }
+
+        public List<Product> GetProductsByProducer(int producerId)
+        {
+            var query = context.Products.AsQueryable();
+            query = query.Where(p => p.ProducerId == producerId);
+
+            return query.ToList();
+        }
+        public List<Product> GetProductsByCategory(int categoryId)
+        {
+            var query = context.Products.AsQueryable();
+            query = query.Where(p => p.ProductCategoryId == categoryId);
+
+            return query.ToList();
+        }
     }
 }

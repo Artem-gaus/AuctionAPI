@@ -57,6 +57,14 @@
     <Compile Include="Migrations\201812311517366_AttachDataAnotations.Designer.cs">
       <DependentUpon>201812311517366_AttachDataAnotations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901041434149_AddDataTime2Type.cs" />
+    <Compile Include="Migrations\201901041434149_AddDataTime2Type.Designer.cs">
+      <DependentUpon>201901041434149_AddDataTime2Type.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901041511179_AddTwoForingKeyToBid.cs" />
+    <Compile Include="Migrations\201901041511179_AddTwoForingKeyToBid.Designer.cs">
+      <DependentUpon>201901041511179_AddTwoForingKeyToBid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BidRepository.cs" />
@@ -84,6 +92,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812311517366_AttachDataAnotations.resx">
       <DependentUpon>201812311517366_AttachDataAnotations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901041434149_AddDataTime2Type.resx">
+      <DependentUpon>201901041434149_AddDataTime2Type.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901041511179_AddTwoForingKeyToBid.resx">
+      <DependentUpon>201901041511179_AddTwoForingKeyToBid.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

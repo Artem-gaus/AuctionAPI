@@ -4,12 +4,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 using BusinessLogic.DTO;
 using BusinessLogic.Interfaces.IServices;
 
 namespace Auction.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Custom-Header")]
     [RoutePrefix("api/producers")]
     public class ProducersController : ApiController
     {
@@ -28,6 +30,15 @@ namespace Auction.Controllers
                 return NotFound();
 
             return Ok(producerDTO);
+        }
+        [HttpGet]
+        public IHttpActionResult GetAll()
+        {
+            List<ProducerDTO> producerDTOs = producerService.GetAll();
+            if (producerDTOs == null)
+                return NotFound();
+
+            return Ok(producerDTOs);
         }
         [HttpPost]
         public IHttpActionResult Add(ProducerDTO producerDTO)

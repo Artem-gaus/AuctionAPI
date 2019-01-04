@@ -55,6 +55,7 @@
     <Compile Include="DTO\ProducerDTO.cs" />
     <Compile Include="DTO\ProductCategoryDTO.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
+    <Compile Include="DTO\SaveProductDTO.cs" />
     <Compile Include="DTO\SellerDTO.cs" />
     <Compile Include="Interfaces\IRepositories\IBidRepository.cs" />
     <Compile Include="Interfaces\IRepositories\ICustomerRepository.cs" />

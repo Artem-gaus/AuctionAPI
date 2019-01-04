@@ -10,5 +10,6 @@ namespace BusinessLogic.Interfaces.IRepositories
 {
     public interface IBidRepository : IRepository<Bid>
     {
+        List<Bid> GetBidsByCustomer(int customerId);
     }
 }

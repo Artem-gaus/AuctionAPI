@@ -10,5 +10,6 @@ namespace BusinessLogic.Interfaces.IServices
 {
     public interface IBidService : IService<BidDTO>
     {
+        List<BidDTO> GetBidsByCustomer(int id);
     }
 }

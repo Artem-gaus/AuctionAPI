@@ -9,6 +9,7 @@ using BusinessLogic.Models;
 using BusinessLogic.Services;
 using DataAccess.Repositories;
 using BusinessLogic.Interfaces;
+using BusinessLogic.Interfaces.IServices;
 using BusinessLogic.Interfaces.IRepositories;
 
 namespace Auction
@@ -18,7 +19,13 @@ namespace Auction
         protected void Application_Start()
         {
             var container = new Container();
+
             container.Register<ICustomerService, CustomerService>();
+            container.Register<IBidService, BidService>();
+            container.Register<IProducerService, ProducerService>();
+            container.Register<IProductCategoryService, ProductCategoryService>();
+            container.Register<IProductSevice, ProductService>();
+            container.Register<ISellerService, SellerService>();
 
             container.Register<IUnitOfWork, UnitOfWork>();
 

@@ -11,7 +11,7 @@ using BusinessLogic.Models;
 
 namespace BusinessLogic.Services
 {
-    class ProducerService : IProducerService
+    public class ProducerService : IProducerService
     {
         private readonly IUnitOfWork uow;
 
@@ -42,6 +42,14 @@ namespace BusinessLogic.Services
             Producer producer = uow.Producers.Get(id);
 
             return mapper.Map<Producer, ProducerDTO>(producer);
+        }
+
+        public List<ProducerDTO> GetAll()
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Producer, ProducerDTO>()).CreateMapper();
+            List<Producer> producers = uow.Producers.GetAll().ToList();
+
+            return mapper.Map<List<Producer>, List<ProducerDTO>>(producers);
         }
 
         public void Update(ProducerDTO producerDTO)
