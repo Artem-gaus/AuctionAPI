@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{7026F27A-AF51-4C16-90CB-E3B74F27FB8B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Tests", "Auction.Tests\Auction.Tests.csproj", "{A890DE97-D95D-4E0F-A77F-F1D21FFE07A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{7026F27A-AF51-4C16-90CB-E3B74F27FB8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7026F27A-AF51-4C16-90CB-E3B74F27FB8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7026F27A-AF51-4C16-90CB-E3B74F27FB8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A890DE97-D95D-4E0F-A77F-F1D21FFE07A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A890DE97-D95D-4E0F-A77F-F1D21FFE07A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A890DE97-D95D-4E0F-A77F-F1D21FFE07A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A890DE97-D95D-4E0F-A77F-F1D21FFE07A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

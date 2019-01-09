@@ -32,13 +32,13 @@ namespace Auction.Controllers
             return Ok(categoryDTO);
         }
         [HttpGet]
-        public IHttpActionResult GetAll()
+        public IEnumerable<ProductCategoryDTO> GetAll()
         {
-            List<ProductCategoryDTO> categoryDTOs = categoryService.GetAll();
-            if (categoryDTOs == null)
-                return NotFound();
+            IEnumerable<ProductCategoryDTO> categoryDTOs = categoryService.GetAll();
+            //if (categoryDTOs == null)
+            //    return NotFound();
 
-            return Ok(categoryDTOs);
+            return categoryDTOs;
         }
         [HttpPost]
         public IHttpActionResult Add(ProductCategoryDTO categoryDTO)

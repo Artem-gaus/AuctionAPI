@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -43,7 +39,7 @@ namespace Auction.Controllers
         [HttpPost]
         public IHttpActionResult Add(ProducerDTO producerDTO)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || producerDTO.Title == "" || producerDTO.Title == null)
                 return BadRequest();
 
             producerService.Create(producerDTO);
@@ -52,7 +48,7 @@ namespace Auction.Controllers
         [HttpPut]
         public IHttpActionResult Update(ProducerDTO producerDTO)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || producerDTO.Title == "" || producerDTO.Title == null)
                 return BadRequest();
 
             ProducerDTO existsProducer = producerService.Get(producerDTO.Id);
