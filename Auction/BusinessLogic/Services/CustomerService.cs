@@ -37,13 +37,8 @@ namespace BusinessLogic.Services
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Customer, CustomerDTO>()).CreateMapper();
             Customer customer = new Customer();
-            try
-            {
-                customer = uow.Customers.Get(id);
-            }
-            catch
-            {
-            }
+
+            customer = uow.Customers.Get(id);
 
             return mapper.Map<Customer, CustomerDTO>(customer);
         }
