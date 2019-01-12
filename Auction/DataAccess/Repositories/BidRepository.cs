@@ -20,9 +20,21 @@ namespace DataAccess.Repositories
             get { return context as AuctionContext; }
         }
 
-        public IQueryable<Bid> Get(int id)
+        public Bid Get(int id)
         {
-            return context.Bids.AsNoTracking().Where(c => c.Id == id);
+            var query = context.Bids.AsNoTracking().Where(c => c.Id == id);
+            Bid bid = new Bid();
+            foreach (var item in query)
+            {
+                bid.Id = item.Id;
+                bid.Price = item.Price;
+                bid.TimeOfBit = item.TimeOfBit;
+                bid.Product = item.Product;
+                bid.ProductId = item.ProductId;
+                bid.Customer = item.Customer;
+                bid.CustomerId = item.CustomerId;
+            }
+            return bid;
         }
         public List<Bid> GetBidsByCustomer(int customerId)
         {

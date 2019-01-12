@@ -15,33 +15,55 @@ namespace BusinessLogic.Services
 {
     public class ProductCategoryService : IProductCategoryService
     {
-        private readonly IUnitOfWork uow;
+        private readonly IUnitOfWorkFactory uowFactory;
 
-        public ProductCategoryService(IUnitOfWork uow)
+        public ProductCategoryService(IUnitOfWorkFactory uowFactory)
         {
-            this.uow = uow;
+            this.uowFactory = uowFactory;
         }
 
         public void Create(ProductCategoryDTO categoryDTO)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProductCategoryDTO, ProductCategory>()).CreateMapper();
             ProductCategory category = mapper.Map<ProductCategoryDTO, ProductCategory>(categoryDTO);
-            uow.ProductCategories.Add(category);
-            uow.Save();
+
+            using (var uow = uowFactory.Create())
+            {
+                uow.ProductCategories.Add(category);
+                uow.Save();
+            }
         }
 
         public void Delete(ProductCategoryDTO categoryDTO)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProductCategoryDTO, ProductCategory>()).CreateMapper();
             ProductCategory category = mapper.Map<ProductCategoryDTO, ProductCategory>(categoryDTO);
-            uow.ProductCategories.Remove(category);
-            uow.Save();
+
+            using (var uow = uowFactory.Create())
+            {
+                ProductCategory existsCategory = uow.ProductCategories.Get(category.Id);
+
+                if (existsCategory != null)
+                {
+                    uow.ProductCategories.Remove(category);
+                    uow.Save();
+                }
+                else
+                {
+                    throw new ArgumentException("You can not delete the Product Category, becouse does Product Category not exist");
+                }
+            }
         }
 
         public ProductCategoryDTO Get(int id)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProductCategory, ProductCategoryDTO>()).CreateMapper();
-            ProductCategory category = new ProductCategory(); // uow.ProductCategories.Get(id);
+            ProductCategory category = new ProductCategory();
+
+            using (var uow = uowFactory.Create())
+            {
+                category = uow.ProductCategories.Get(id);
+            }
 
             return mapper.Map<ProductCategory, ProductCategoryDTO>(category);
         }
@@ -49,7 +71,12 @@ namespace BusinessLogic.Services
         public List<ProductCategoryDTO> GetAll()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProductCategory, ProductCategoryDTO>()).CreateMapper();
-            List<ProductCategory> categorys = uow.ProductCategories.GetAll().ToList();
+            List<ProductCategory> categorys = new List<ProductCategory>();
+
+            using (var uow = uowFactory.Create())
+            {
+                categorys = uow.ProductCategories.GetAll().ToList();
+            }
 
             return mapper.Map<List<ProductCategory>, List<ProductCategoryDTO>>(categorys);
         }
@@ -58,8 +85,21 @@ namespace BusinessLogic.Services
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProductCategoryDTO, ProductCategory>()).CreateMapper();
             ProductCategory category = mapper.Map<ProductCategoryDTO, ProductCategory>(categoryDTO);
-            uow.ProductCategories.Update(category);
-            uow.Save();
+
+            using (var uow = uowFactory.Create())
+            {
+                ProductCategory existsCategory = uow.ProductCategories.Get(category.Id);
+
+                if (existsCategory != null)
+                {
+                    uow.ProductCategories.Update(category);
+                    uow.Save();
+                }
+                else
+                {
+                    throw new ArgumentException("You can not update the Product Category, becouse does Product Category not exist");
+                }
+            }
         }
     }
 }

@@ -14,13 +14,10 @@ namespace BusinessLogic.Services
 {
     public class CustomerService : ICustomerService
     {
-
-        private readonly IUnitOfWork uow;
         private readonly IUnitOfWorkFactory uowFactory;
 
         public CustomerService(IUnitOfWork repository, IUnitOfWorkFactory uowFactory)
         {
-            this.uow = repository;
             this.uowFactory = uowFactory;
         }
 

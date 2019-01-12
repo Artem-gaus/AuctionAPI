@@ -22,13 +22,18 @@ namespace Auction.Controllers
             this.productSevice = productSevice;
         }
 
+        protected CustomActionResult ErrorResponse(HttpStatusCode statusCode, string message)
+        {
+            return new CustomActionResult(statusCode, message, Request);
+        }
+
         [Route("{id:int}")]
         [HttpGet]
         public IHttpActionResult Get(int id)
         {
             ProductDTO productDTO = productSevice.Get(id);
-            if (productDTO == null)
-                return NotFound();
+            if (productDTO == null || productDTO.Id == 0)
+                return ErrorResponse(HttpStatusCode.NotFound, "Product does not exist.");
 
             return Ok(productDTO);
         }
@@ -37,8 +42,8 @@ namespace Auction.Controllers
         public IHttpActionResult GetByProducer(int id)
         {
             List<ProductDTO> productDTOs = productSevice.GetProductsByProducer(id);
-            if (productDTOs == null)
-                return NotFound();
+            if (productDTOs == null || productDTOs.Count == 0)
+                return ErrorResponse(HttpStatusCode.NotFound, "This Producer have not Products");
 
             return Ok(productDTOs);
         }
@@ -47,8 +52,8 @@ namespace Auction.Controllers
         public IHttpActionResult GetByCategory(int id)
         {
             List<ProductDTO> productDTOs = productSevice.GetProductsByCategory(id);
-            if (productDTOs == null)
-                return NotFound();
+            if (productDTOs == null || productDTOs.Count == 0)
+                return ErrorResponse(HttpStatusCode.NotFound, "This Category have not Products");
 
             return Ok(productDTOs);
         }
@@ -56,32 +61,56 @@ namespace Auction.Controllers
         public IHttpActionResult Add(ProductDTO productDTO)
         {
             if (!ModelState.IsValid || productDTO.ProducerId==0 || productDTO.ProductCategoryId==0 || productDTO.SellerId==0)
-                return BadRequest();
+                return ErrorResponse(HttpStatusCode.BadRequest, "Parameters are not correct.");
 
             productSevice.Create(productDTO);
+            try
+            {
+                productSevice.Create(productDTO);
+            }
+            catch (Exception ex)
+            {
+                return ErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
             return Ok();
         }
         [HttpPut]
         public IHttpActionResult Update(ProductDTO productDTO)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return ErrorResponse(HttpStatusCode.BadRequest, "Parameters are not correct.");
 
-            ProductDTO existsProduct = productSevice.Get(productDTO.Id);
-            if (existsProduct == null)
-                return NotFound();
-
-            productSevice.Update(productDTO);
+            try
+            {
+                productSevice.Update(productDTO);
+            }
+            catch (ArgumentException arEx)
+            {
+                return ErrorResponse(HttpStatusCode.BadRequest, arEx.Message);
+            }
+            catch (Exception)
+            {
+                return ErrorResponse(HttpStatusCode.InternalServerError, "");
+            }
+            
             return Ok();
         }
         [HttpDelete]
         public IHttpActionResult Delete(ProductDTO productDTO)
         {
-            ProductDTO existsProduct = productSevice.Get(productDTO.Id);
-            if (existsProduct == null)
-                return NotFound();
+            try
+            {
+                productSevice.Delete(productDTO);
+            }
+            catch (ArgumentException arEx)
+            {
+                return ErrorResponse(HttpStatusCode.NotFound, arEx.Message);
+            }
+            catch (Exception)
+            {
+                return ErrorResponse(HttpStatusCode.InternalServerError, "");
+            }
 
-            productSevice.Delete(productDTO);
             return Ok();
         }
     }

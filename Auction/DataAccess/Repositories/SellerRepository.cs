@@ -18,5 +18,24 @@ namespace DataAccess.Repositories
         {
             get { return context as AuctionContext; }
         }
+
+        public Seller Get(int id)
+        {
+            var query = context.Sellers.AsNoTracking().Where(s => s.Id == id);
+
+            Seller seller = new Seller();
+            foreach (var item in query)
+            {
+                seller.Id = item.Id;
+                seller.Name = item.Name;
+                seller.Surname = item.Surname;
+                seller.Phone = item.Phone;
+                seller.Email = item.Email;
+                seller.BankAccountNumber = seller.BankAccountNumber;
+                seller.Products = item.Products;
+            }
+
+            return seller;
+        }
     }
 }

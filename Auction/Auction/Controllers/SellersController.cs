@@ -21,13 +21,19 @@ namespace Auction.Controllers
         {
             this.sellerService = sellerService;
         }
+
+        protected CustomActionResult ErrorResponse(HttpStatusCode statusCode, string message)
+        {
+            return new CustomActionResult(statusCode, message, Request);
+        }
+
         [Route("{id:int}")]
         [HttpGet]
         public IHttpActionResult Get(int id)
         {
             SellerDTO sellerDTO = sellerService.Get(id);
             if (sellerDTO == null)
-                return NotFound();
+                return ErrorResponse(HttpStatusCode.NotFound, "Seller does not exist.");
 
             return Ok(sellerDTO);
         }
@@ -35,32 +41,56 @@ namespace Auction.Controllers
         public IHttpActionResult Add(SellerDTO sellerDTO)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return ErrorResponse(HttpStatusCode.BadRequest, "Parameters are not correct.");
 
-            sellerService.Create(sellerDTO);
+            try
+            {
+                sellerService.Create(sellerDTO);
+            }
+            catch (Exception ex)
+            {
+                return ErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+
             return Ok();
         }
         [HttpPut]
         public IHttpActionResult Update(SellerDTO sellerDTO)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return ErrorResponse(HttpStatusCode.BadRequest, "Parameters are not correct.");
 
-            SellerDTO existsSeller = sellerService.Get(sellerDTO.Id);
-            if (existsSeller == null)
-                return NotFound();
-
-            sellerService.Update(sellerDTO);
+            try
+            {
+                sellerService.Update(sellerDTO);
+            }
+            catch (ArgumentException arEx)
+            {
+                return ErrorResponse(HttpStatusCode.BadRequest, arEx.Message);
+            }
+            catch (Exception)
+            {
+                return ErrorResponse(HttpStatusCode.InternalServerError, "");
+            }
+            
             return Ok();
         }
         [HttpDelete]
         public IHttpActionResult Delete(SellerDTO sellerDTO)
         {
-            SellerDTO existsSeller = sellerService.Get(sellerDTO.Id);
-            if (existsSeller == null)
-                return NotFound();
-
-            sellerService.Delete(sellerDTO);
+            try
+            {
+                sellerService.Delete(sellerDTO);
+            }
+            catch (ArgumentException arEx)
+            {
+                return ErrorResponse(HttpStatusCode.BadRequest, arEx.Message);
+            }
+            catch (Exception)
+            {
+                return ErrorResponse(HttpStatusCode.InternalServerError, "");
+            }
+            
             return Ok();
         }
     }

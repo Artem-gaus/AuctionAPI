@@ -21,13 +21,19 @@ namespace Auction.Controllers
         {
             this.bidService = bidService;
         }
+
+        protected CustomActionResult ErrorResponse(HttpStatusCode statusCode, string message)
+        {
+            return new CustomActionResult(statusCode, message, Request);
+        }
+
         [Route("{id:int}")]
         [HttpGet]
         public IHttpActionResult Get(int id)
         {
             BidDTO bidDTO = bidService.Get(id);
             if (bidDTO == null || bidDTO.Id == 0)
-                return NotFound();
+                return ErrorResponse(HttpStatusCode.NotFound, "Bid does not exist.");
 
             return Ok(bidDTO);
         }
@@ -37,40 +43,64 @@ namespace Auction.Controllers
         {
             List<BidDTO> bidDTOs = bidService.GetBidsByCustomer(id);
             if (bidDTOs == null)
-                return NotFound();
+                return ErrorResponse(HttpStatusCode.NotFound, "This Customer have not Bids");
 
             return Ok(bidDTOs);
         }
         [HttpPost]
         public IHttpActionResult Add(BidDTO bidDTO)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
+            if (!ModelState.IsValid || bidDTO.ProductId == 0 || bidDTO.CustomerId == 0)
+                return ErrorResponse(HttpStatusCode.BadRequest, "Parameters are not correct.");
 
-            bidService.Create(bidDTO);
+            try
+            {
+                bidService.Create(bidDTO);
+            }
+            catch (Exception ex)
+            {
+                return ErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+            
             return Ok();
         }
         [HttpPut]
         public IHttpActionResult Update(BidDTO bidDTO)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return ErrorResponse(HttpStatusCode.BadRequest, "Parameters are not correct.");
 
-            BidDTO existsBid = bidService.Get(bidDTO.Id);
-            if (existsBid == null)
-                return NotFound();
+            try
+            {
+                bidService.Update(bidDTO);
+            }
+            catch (ArgumentException arEx)
+            {
+                return ErrorResponse(HttpStatusCode.BadRequest, arEx.Message);
+            }
+            catch (Exception)
+            {
+                return ErrorResponse(HttpStatusCode.InternalServerError, "");
+            }
 
-            bidService.Update(bidDTO);
             return Ok();
         }
         [HttpDelete]
         public IHttpActionResult Delete(BidDTO bidDTO)
         {
-            BidDTO existsBid = bidService.Get(bidDTO.Id);
-            if (existsBid == null)
-                return NotFound();
+            try
+            {
+                bidService.Delete(bidDTO);
+            }
+            catch (ArgumentException arEx)
+            {
+                return ErrorResponse(HttpStatusCode.NotFound, arEx.Message);
+            }
+            catch (Exception)
+            {
+                return ErrorResponse(HttpStatusCode.InternalServerError, "");
+            }
 
-            bidService.Delete(bidDTO);
             return Ok();
         }
     }

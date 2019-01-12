@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -17,13 +19,19 @@ namespace Auction.Controllers
         {
             this.producerService = producerService;
         }
+
+        protected CustomActionResult ErrorResponse(HttpStatusCode statusCode, string message)
+        {
+            return new CustomActionResult(statusCode, message, Request);
+        }
+
         [Route("{id:int}")]
         [HttpGet]
         public IHttpActionResult Get(int id)
         {
             ProducerDTO producerDTO = producerService.Get(id);
             if (producerDTO == null)
-                return NotFound();
+                return ErrorResponse(HttpStatusCode.NotFound, "You can not get the producer, becouse does producer not exist");
 
             return Ok(producerDTO);
         }
@@ -32,7 +40,7 @@ namespace Auction.Controllers
         {
             List<ProducerDTO> producerDTOs = producerService.GetAll();
             if (producerDTOs == null)
-                return NotFound();
+                return ErrorResponse(HttpStatusCode.NotFound, "You can not get the producers, becouse does producers not exist");
 
             return Ok(producerDTOs);
         }
@@ -40,7 +48,7 @@ namespace Auction.Controllers
         public IHttpActionResult Add(ProducerDTO producerDTO)
         {
             if (!ModelState.IsValid || producerDTO.Title == "" || producerDTO.Title == null)
-                return BadRequest();
+                return ErrorResponse(HttpStatusCode.BadRequest, "Producer's model is not valid");
 
             producerService.Create(producerDTO);
             return Ok();
@@ -49,23 +57,39 @@ namespace Auction.Controllers
         public IHttpActionResult Update(ProducerDTO producerDTO)
         {
             if (!ModelState.IsValid || producerDTO.Title == "" || producerDTO.Title == null)
-                return BadRequest();
+                return ErrorResponse(HttpStatusCode.BadRequest, "Producer's model is not valid");
 
-            ProducerDTO existsProducer = producerService.Get(producerDTO.Id);
-            if (existsProducer == null)
-                return NotFound();
+            try
+            {
+                producerService.Update(producerDTO);
+            }
+            catch (ArgumentException arEx)
+            {
+                return ErrorResponse(HttpStatusCode.NotFound, arEx.Message);
+            }
+            catch (Exception)
+            {
+                return ErrorResponse(HttpStatusCode.BadRequest, "");
+            }
 
-            producerService.Update(producerDTO);
             return Ok();
         }
         [HttpDelete]
         public IHttpActionResult Delete(ProducerDTO producerDTO)
         {
-            ProducerDTO existsProducer = producerService.Get(producerDTO.Id);
-            if (existsProducer == null)
-                return NotFound();
+            try
+            {
+                producerService.Delete(producerDTO);
+            }
+            catch (ArgumentException arEx)
+            {
+                return ErrorResponse(HttpStatusCode.NotFound, arEx.Message);
+            }
+            catch (Exception)
+            {
+                return ErrorResponse(HttpStatusCode.BadRequest, "");
+            }
 
-            producerService.Delete(producerDTO);
             return Ok();
         }
     }

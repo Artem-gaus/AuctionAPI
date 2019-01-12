@@ -9,6 +9,7 @@ namespace BusinessLogic.Interfaces.IRepositories
 {
     public interface IProductRepository : IRepository<Product>
     {
+        Product Get(int id);
         List<Product> GetProductsByProducer(int producerId);
         List<Product> GetProductsByCategory(int categoryId);
     }

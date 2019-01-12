@@ -14,52 +14,71 @@ namespace BusinessLogic.Services
 {
     public class BidService : IBidService
     {
-        private readonly IUnitOfWork uow;
+        private readonly IUnitOfWorkFactory uowFactory;
 
-        public BidService(IUnitOfWork repository)
+        public BidService(IUnitOfWorkFactory uowFactory)
         {
-            this.uow = repository;
+            this.uowFactory = uowFactory;
         }
 
         public void Create(BidDTO bidDTO)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<BidDTO, Bid>()).CreateMapper();
             Bid bid = mapper.Map<BidDTO, Bid>(bidDTO);
-            bid.TimeOfBit = DateTime.Now;
 
-            uow.Bids.Add(bid);
-            uow.Save();
+            bid.TimeOfBit = DateTime.Now;
+            using (var uow = uowFactory.Create())
+            {
+                try
+                {
+                    uow.Bids.Add(bid);
+                    uow.Save();
+                }
+                catch (Exception)
+                {
+                    throw new ArgumentException("Parameters are not correct.");
+                }
+            }
         }
         public void Delete(BidDTO bidDTO)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Bid, BidDTO>()).CreateMapper();
             Bid bid = mapper.Map<BidDTO, Bid>(bidDTO);
-            uow.Bids.Remove(bid);
-            uow.Save();
+            using (var uow = uowFactory.Create())
+            {
+                Bid existsBid = uow.Bids.Get(bidDTO.Id);
+                if (existsBid != null || existsBid.Id != 0)
+                {
+                    uow.Bids.Remove(bid);
+                    uow.Save();
+                }
+                else
+                {
+                    throw new ArgumentException("You can not remove the bid, becouse does bid not exist");
+                }
+            }
         }
         public BidDTO Get(int id)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Bid, BidDTO>()).CreateMapper();
-            Bid bid = new Bid();
-            var query = uow.Bids.Get(id);
 
-            foreach (var item in query)
+            Bid bid = new Bid();
+            using (var uow = uowFactory.Create())
             {
-                bid.Id = item.Id;
-                bid.Price = item.Price;
-                bid.TimeOfBit = item.TimeOfBit;
-                bid.Product = item.Product;
-                bid.ProductId = item.ProductId;
-                bid.Customer = item.Customer;
-                bid.CustomerId = item.CustomerId;
-            }
+                bid = uow.Bids.Get(id);
+            }  
 
             return mapper.Map<Bid, BidDTO>(bid);
         }
         public List<BidDTO> GetBidsByCustomer(int id)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Bid, BidDTO>()).CreateMapper();
-            List<Bid> bids = uow.Bids.GetBidsByCustomer(id);
+            List<Bid> bids = new List<Bid>(); 
+
+            using (var uow = uowFactory.Create())
+            {
+                bids = uow.Bids.GetBidsByCustomer(id);
+            }
 
             return mapper.Map<List<Bid>, List<BidDTO>>(bids);
         }
@@ -67,8 +86,20 @@ namespace BusinessLogic.Services
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Bid, BidDTO>()).CreateMapper();
             Bid bid = mapper.Map<BidDTO, Bid>(bidDTO);
-            uow.Bids.Update(bid);
-            uow.Save();
+
+            using (var uow = uowFactory.Create())
+            {
+                Bid existsBid = uow.Bids.Get(bidDTO.Id);
+                if (existsBid != null || existsBid.Id != 0)
+                {
+                    uow.Bids.Update(bid);
+                    uow.Save();
+                }
+                else
+                {
+                    throw new ArgumentException("You can not update the bid, becouse does bid not exist");
+                }
+            }  
         }
     }
 }

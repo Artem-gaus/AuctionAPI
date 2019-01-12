@@ -21,13 +21,19 @@ namespace Auction.Controllers
         {
             this.categoryService = categoryService;
         }
+
+        protected CustomActionResult ErrorResponse(HttpStatusCode statusCode, string message)
+        {
+            return new CustomActionResult(statusCode, message, Request);
+        }
+
         [Route("{id:int}")]
         [HttpGet]
         public IHttpActionResult Get(int id)
         {
             ProductCategoryDTO categoryDTO = categoryService.Get(id);
             if (categoryDTO == null)
-                return NotFound();
+                return ErrorResponse(HttpStatusCode.NotFound, "Product Category does not exist.");
 
             return Ok(categoryDTO);
         }
@@ -35,8 +41,6 @@ namespace Auction.Controllers
         public IEnumerable<ProductCategoryDTO> GetAll()
         {
             IEnumerable<ProductCategoryDTO> categoryDTOs = categoryService.GetAll();
-            //if (categoryDTOs == null)
-            //    return NotFound();
 
             return categoryDTOs;
         }
@@ -44,32 +48,56 @@ namespace Auction.Controllers
         public IHttpActionResult Add(ProductCategoryDTO categoryDTO)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return ErrorResponse(HttpStatusCode.BadRequest, "Parameters are not correct.");
 
-            categoryService.Create(categoryDTO);
+            try
+            {
+                categoryService.Create(categoryDTO);
+            }
+            catch (Exception ex)
+            {
+                return ErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+
             return Ok();
         }
         [HttpPut]
         public IHttpActionResult Update(ProductCategoryDTO categoryDTO)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return ErrorResponse(HttpStatusCode.BadRequest, "Parameters are not correct.");
 
-            ProductCategoryDTO existsCategory = categoryService.Get(categoryDTO.Id);
-            if (existsCategory == null)
-                return NotFound();
-
-            categoryService.Update(categoryDTO);
+            try
+            {
+                categoryService.Update(categoryDTO);
+            }
+            catch (ArgumentException arEx)
+            {
+                return ErrorResponse(HttpStatusCode.BadRequest, arEx.Message);
+            }
+            catch (Exception)
+            {
+                return ErrorResponse(HttpStatusCode.InternalServerError, "");
+            }
+            
             return Ok();
         }
         [HttpDelete]
         public IHttpActionResult Delete(ProductCategoryDTO categoryDTO)
         {
-            ProductCategoryDTO existsCategory = categoryService.Get(categoryDTO.Id);
-            if (existsCategory == null)
-                return NotFound();
-
-            categoryService.Delete(categoryDTO);
+            try
+            {
+                categoryService.Delete(categoryDTO);
+            }
+            catch (ArgumentException arEx)
+            {
+                return ErrorResponse(HttpStatusCode.BadRequest, arEx.Message);
+            }
+            catch (Exception)
+            {
+                return ErrorResponse(HttpStatusCode.InternalServerError, "");
+            }
+            
             return Ok();
         }
     }
