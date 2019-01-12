@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using BusinessLogic.Models;
-
 namespace BusinessLogic.Interfaces
 {
-    public interface ICustomerRepository : IRepository<Customer>
+    public interface IUnitOfWorkFactory
     {
-        Customer Get(int id);
+        IUnitOfWork Create();
     }
 }

@@ -20,6 +20,10 @@ namespace DataAccess.Repositories
             get { return context as AuctionContext; }
         }
 
+        public IQueryable<Bid> Get(int id)
+        {
+            return context.Bids.AsNoTracking().Where(c => c.Id == id);
+        }
         public List<Bid> GetBidsByCustomer(int customerId)
         {
             var query = context.Bids.AsQueryable();

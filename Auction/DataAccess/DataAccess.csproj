@@ -75,6 +75,7 @@
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\SellerRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
+    <Compile Include="UnitOfWorkFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

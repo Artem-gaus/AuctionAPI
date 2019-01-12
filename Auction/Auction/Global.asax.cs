@@ -28,6 +28,7 @@ namespace Auction
             container.Register<ISellerService, SellerService>();
 
             container.Register<IUnitOfWork, UnitOfWork>();
+            container.Register<IUnitOfWorkFactory, UnitOfWorkFactory>();
 
             container.Register<IRepository<Customer>, Repository<Customer>>();
             container.Register<ICustomerRepository, CustomerRepository>();

@@ -9,7 +9,7 @@ using BusinessLogic.Interfaces.IRepositories;
 
 namespace BusinessLogic.Interfaces
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         void Save();
         

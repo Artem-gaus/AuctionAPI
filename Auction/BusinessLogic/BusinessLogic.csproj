@@ -72,6 +72,7 @@
     <Compile Include="Interfaces\IServices\ISellerService.cs" />
     <Compile Include="Interfaces\IServices\IService.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Interfaces\IUnitOfWorkFactory.cs" />
     <Compile Include="Models\Bid.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Person.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Services\SellerService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

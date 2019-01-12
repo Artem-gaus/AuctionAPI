@@ -56,21 +56,28 @@ namespace Auction.Controllers
             if (!ModelState.IsValid)
                 return ErrorResponse(HttpStatusCode.BadRequest, "Customer's model is not valid");
 
-            CustomerDTO existsCustomer = customerService.Get(customerDTO.Id);
-            if (existsCustomer == null)
+            try
+            {
+                customerService.Update(customerDTO);
+            }
+            catch (ArgumentException arEx)
+            {
                 return ErrorResponse(HttpStatusCode.NotFound, "You can not update Customer, becouse does customer not exist");
-
-            customerService.Update(customerDTO);
+            }
+            
             return Ok();
         }
         [HttpDelete]
         public IHttpActionResult Delete([FromBody] CustomerDTO customerDTO)
         {
-            CustomerDTO existsCustomer = customerService.Get(customerDTO.Id);
-            if (existsCustomer == null)
+            try
+            {
+                customerService.Delete(customerDTO);
+            }
+            catch (ArgumentException arEx)
+            {
                 return ErrorResponse(HttpStatusCode.NotFound, "You can not remove the buyer " + customerDTO.Name + ", becouse does customer not exist");
-
-            customerService.Delete(customerDTO);
+            }
 
             return Ok();
         }

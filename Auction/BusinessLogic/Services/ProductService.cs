@@ -43,7 +43,7 @@ namespace BusinessLogic.Services
         public ProductDTO Get(int id)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Product, ProductDTO>()).CreateMapper();
-            Product product = uow.Products.Get(id);
+            Product product = new Product(); // uow.Products.Get(id);
 
             return mapper.Map<Product, ProductDTO>(product);
         }

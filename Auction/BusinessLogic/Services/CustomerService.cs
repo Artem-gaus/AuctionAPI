@@ -10,35 +10,40 @@ using BusinessLogic.DTO;
 using BusinessLogic.Models;
 using BusinessLogic.Interfaces;
 
-////////////////////////////////
-//хорошая валидация
-//http://jasonwatmore.com/post/2016/12/12/c-aspnet-domain-validation-logic-in-domain-driven-design-ddd
-////////////////////////////////
 namespace BusinessLogic.Services
 {
     public class CustomerService : ICustomerService
     {
 
         private readonly IUnitOfWork uow;
+        private readonly IUnitOfWorkFactory uowFactory;
 
-        public CustomerService(IUnitOfWork repository)
+        public CustomerService(IUnitOfWork repository, IUnitOfWorkFactory uowFactory)
         {
             this.uow = repository;
+            this.uowFactory = uowFactory;
         }
 
         public void Create(CustomerDTO customerDTO)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CustomerDTO, Customer>()).CreateMapper();
             Customer customer = mapper.Map<CustomerDTO, Customer>(customerDTO);
-            uow.Customers.Add(customer);
-            uow.Save();
+
+            using (var uow = uowFactory.Create())
+            {
+                uow.Customers.Add(customer);
+                uow.Save();
+            }  
         }
         public CustomerDTO Get(int id)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Customer, CustomerDTO>()).CreateMapper();
-            Customer customer = new Customer();
 
-            customer = uow.Customers.Get(id);
+            Customer customer = new Customer();
+            using (var uow = uowFactory.Create())
+            {
+                customer = uow.Customers.Get(id);
+            } 
 
             return mapper.Map<Customer, CustomerDTO>(customer);
         }
@@ -46,15 +51,41 @@ namespace BusinessLogic.Services
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Customer, CustomerDTO>()).CreateMapper();
             Customer customer = mapper.Map<CustomerDTO, Customer>(customerDTO);
-            uow.Customers.Update(customer);
-            uow.Save();
+
+            using (var uow = uowFactory.Create())
+            {
+                Customer existsCustomer = uow.Customers.Get(customer.Id);
+
+                if (existsCustomer != null)
+                {
+                    uow.Customers.Update(customer);
+                    uow.Save();
+                }
+                else
+                {
+                    throw new ArgumentException();
+                }
+            } 
         }
         public void Delete(CustomerDTO customerDTO)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Customer, CustomerDTO>()).CreateMapper();
             Customer customer = mapper.Map<CustomerDTO, Customer>(customerDTO);
-            uow.Customers.Remove(customer);
-            uow.Save();
+
+            using (var uow = uowFactory.Create())
+            {
+                Customer existsCustomer = uow.Customers.Get(customer.Id);
+
+                if (existsCustomer != null)
+                {
+                    uow.Customers.Remove(customer);
+                    uow.Save();
+                }
+                else
+                {
+                    throw new ArgumentException();
+                }
+            }
         }
     }
 }

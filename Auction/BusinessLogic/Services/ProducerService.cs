@@ -39,7 +39,7 @@ namespace BusinessLogic.Services
         public ProducerDTO Get(int id)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Producer, ProducerDTO>()).CreateMapper();
-            Producer producer = uow.Producers.Get(id);
+            Producer producer = new Producer(); // uow.Producers.Get(id);
 
             return mapper.Map<Producer, ProducerDTO>(producer);
         }

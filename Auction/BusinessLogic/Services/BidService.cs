@@ -40,7 +40,19 @@ namespace BusinessLogic.Services
         public BidDTO Get(int id)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Bid, BidDTO>()).CreateMapper();
-            Bid bid = uow.Bids.Get(id);
+            Bid bid = new Bid();
+            var query = uow.Bids.Get(id);
+
+            foreach (var item in query)
+            {
+                bid.Id = item.Id;
+                bid.Price = item.Price;
+                bid.TimeOfBit = item.TimeOfBit;
+                bid.Product = item.Product;
+                bid.ProductId = item.ProductId;
+                bid.Customer = item.Customer;
+                bid.CustomerId = item.CustomerId;
+            }
 
             return mapper.Map<Bid, BidDTO>(bid);
         }

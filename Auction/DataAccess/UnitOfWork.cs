@@ -19,7 +19,7 @@ using BusinessLogic.Interfaces.IRepositories;
 
 namespace DataAccess
 {
-    public class UnitOfWork : IDisposable, IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private bool disposed = false;
         private readonly AuctionContext context;
