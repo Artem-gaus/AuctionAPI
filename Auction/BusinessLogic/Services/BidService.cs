@@ -31,8 +31,24 @@ namespace BusinessLogic.Services
             {
                 try
                 {
+                    int maxPrice = uow.Bids.GetMaxBidsByProduct(bid.ProductId);
+                    DateTime endDateProduct = uow.Products.Get(bid.ProductId).EndDate;
+
+                    if (endDateProduct < DateTime.Now)
+                    {
+                        throw new ArgumentException("Sale time is over");
+                    }
+                    if (maxPrice >= bid.Price)
+                    {
+                        throw new ArgumentException("Price must be higher then other");
+                    }
+
                     uow.Bids.Add(bid);
                     uow.Save();
+                }
+                catch (ArgumentException arEx)
+                {
+                    throw new ArgumentException(arEx.Message);
                 }
                 catch (Exception)
                 {

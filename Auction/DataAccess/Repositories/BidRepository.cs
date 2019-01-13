@@ -36,6 +36,14 @@ namespace DataAccess.Repositories
             }
             return bid;
         }
+        public int GetMaxBidsByProduct(int productId)
+        {
+            var query = context.Bids.AsNoTracking().AsQueryable();
+            query = query.Where(b => b.ProductId == productId);
+            Bid bidWithMaxPrice = query.First(b => b.Price == query.Max(p => p.Price));
+
+            return bidWithMaxPrice.Price;
+        }
         public List<Bid> GetBidsByCustomer(int customerId)
         {
             var query = context.Bids.AsQueryable();

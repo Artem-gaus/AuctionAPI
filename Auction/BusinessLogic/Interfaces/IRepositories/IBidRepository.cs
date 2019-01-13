@@ -11,6 +11,7 @@ namespace BusinessLogic.Interfaces.IRepositories
     public interface IBidRepository : IRepository<Bid>
     {
         Bid Get(int id);
+        int GetMaxBidsByProduct(int productId);
         List<Bid> GetBidsByCustomer(int customerId);
     }
 }

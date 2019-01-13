@@ -57,9 +57,13 @@ namespace Auction.Controllers
             {
                 bidService.Create(bidDTO);
             }
-            catch (Exception ex)
+            catch (ArgumentException arEx)
             {
-                return ErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+                return ErrorResponse(HttpStatusCode.BadRequest, arEx.Message);
+            }
+            catch (Exception)
+            {
+                return ErrorResponse(HttpStatusCode.InternalServerError, "");
             }
             
             return Ok();
